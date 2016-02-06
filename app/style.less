@@ -1,0 +1,89 @@
+form {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+input {
+    width: 100%;
+    max-width: 1024px;
+    padding: 5px 0;
+    text-indent: 5px;
+    margin: 0.3em;
+}
+
+@book-image-width: 128px;
+@book-image-height: 164px;
+
+.book-list {
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1024px;
+}
+
+.book {
+    border-bottom: 1px solid #ccc;
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    height: @book-image-height;
+}
+
+.book-inner {
+    display: table-row;
+    overflow: hidden;
+}
+
+.book-img {
+    display: table-cell;
+    vertical-align: middle;
+    width: 30%;
+    padding-right: 1em;
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+}
+
+.book-text {
+    display: table-cell;
+    vertical-align: middle;
+    width: 70%;
+    max-height: @book-image-height;
+    overflow: hidden;
+    .book-title, .book-description {
+        margin: 0;
+    }
+
+    .book-description {
+
+        @font-size: 16px;
+        @line-height: 1.4;
+        @lines-to-show: 3;
+
+        height: @font-size*@line-height*@lines-to-show;
+
+        font-size: @font-size;
+        line-height: @line-height;
+        -webkit-line-clamp: @lines-to-show;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media all and (min-width: 45em) {
+    .book {
+        float: left;
+        width: 50%;
+    }
+}
+
+@media all and (min-width: 75em) {
+    .book {
+        width: 33.33333%;
+    }
+}
