@@ -2,47 +2,129 @@
  * Created by Craig on 06/02/2016.
  */
 
+import bookLoader from '../app/bookLoader.js';
+import bookResponse from './test-responses/books-response.js';
+import bookResponseData from './test-responses/books.json';
+
 describe('the book loader', () => {
+
+    beforeEach(() => {
+        jasmine.Ajax.install();
+    });
+
+    afterEach(() => {
+        jasmine.Ajax.uninstall();
+    });
+
+    function callLoadBooks(args){
+        bookLoader.loadBooks.call(bookLoader, args);
+
+        let request = jasmine.Ajax.requests.mostRecent();
+        request.respondWith(bookResponse);
+
+        return request;
+    }
 
     it('should request books with the specified query text', () => {
 
-        expect(true).toBe(false);
+        let request = callLoadBooks({ query: 'javascript' });
+
+        expect(request.url).toContain('q=javascript');
+
+    });
+
+    it('should not request books with an empty query text', (done) => {
+
+        bookLoader.loadBooks({ query: '' })
+            .then(() => done('The book loader should not request books with an empty query text'))
+            .catch(error => {
+                expect(error).toBeDefined();
+                done()
+            });
 
     });
 
     it('should request books with the specified results limit', () => {
 
-        expect(true).toBe(false);
+        let request = callLoadBooks({ query: 'javascript', maxResults: 20 });
+
+        expect(request.url).toContain('maxResults=20');
 
     });
 
     it('should order the results as specified', () => {
 
-        expect(true).toBe(false);
+        let request = callLoadBooks({ query: 'javascript', orderBy: 'newest' });
+
+        expect(request.url).toContain('orderBy=newest');
 
     });
 
-    it('should return a list of books', () => {
+    it('should return an array of books', (done) => {
 
-        expect(true).toBe(false);
+        bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
+            .then(books => {
+                expect(Object.prototype.toString.call( books)).toBe('[object Array]');
+                expect(books.length).toBe(20);
 
-    });
+                done();
+            })
+            .catch(done);
 
-    it('should return books with a title', () => {
-
-        expect(true).toBe(false);
-
-    });
-
-    it('should return books with a description no longer than 200 characters', () => {
-
-        expect(true).toBe(false);
+        jasmine.Ajax.requests.mostRecent().respondWith(bookResponse);
 
     });
 
-    it('should return books with a cover image', () => {
+    it('should return books with a title', (done) => {
 
-        expect(true).toBe(false);
+        bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
+            .then(books => {
+                let firstBook = books[0];
+                expect(firstBook.title).toBeDefined();
+                expect(typeof firstBook.title).toBe('string');
+
+                done();
+            })
+            .catch(done);
+
+        jasmine.Ajax.requests.mostRecent().respondWith(bookResponse);
+
+    });
+
+    it('should return books with a description no longer than 200 characters', (done) => {
+
+        bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
+            .then(books => {
+                let firstBook = books[0];
+                expect(firstBook.description).toBeDefined();
+                expect(typeof firstBook.description).toBe('string');
+
+                var descriptionWithoutSpaces = firstBook.descrption.replace(' ', '');
+
+                expect(descriptionWithoutSpaces.length).toBeLessThan(200);
+
+                done();
+            })
+            .catch(done);
+
+        jasmine.Ajax.requests.mostRecent().respondWith(bookResponse);
+
+
+    });
+
+    it('should return books with a cover image', (done) => {
+
+        bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
+            .then(books => {
+                let firstBook = books[0];
+                expect(firstBook.coverImage).toBeDefined();
+                expect(typeof firstBook.coverImage).toBe('string');
+
+                done();
+            })
+            .catch(done);
+
+        jasmine.Ajax.requests.mostRecent().respondWith(bookResponse);
 
     });
 });
