@@ -7,8 +7,11 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.7",
+    "karma-jasmine-ajax": "^0.1.13"
   }
 }
