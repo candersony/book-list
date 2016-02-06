@@ -24,10 +24,33 @@ module.exports = function(config) {
       'test/**/*.spec.js'
     ],
 
+    preprocessors: {
+      'test/**/*.js': ['webpack', 'sourcemap']
+    },
+
+    webpack: {
+        module: {
+            loaders: [
+                {
+                      test: /\.js$/,
+                      exclude: /(node_modules|bower_components)/,
+                      loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+                      query: {
+                          presets: ['es2015']
+                      }
+                }
+            ]
+        },
+
+        devtool: 'inline-source-map'
+    },
+
     plugins: [
-      'karma-chrome-launcher',
-      'karma-jasmine',
-      'karma-jasmine-ajax'
+        'karma-chrome-launcher',
+        'karma-jasmine',
+        'karma-jasmine-ajax',
+        'karma-webpack',
+        'karma-sourcemap-loader'
     ]
   })
 };
