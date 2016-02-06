@@ -79,9 +79,10 @@ describe('the book loader', () => {
 
         bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
             .then(books => {
-                let firstBook = books[0];
-                expect(firstBook.title).toBeDefined();
-                expect(typeof firstBook.title).toBe('string');
+                books.forEach(book => {
+                    expect(book.title).toBeDefined();
+                    expect(typeof book.title).toBe('string');
+                });
 
                 done();
             })
@@ -95,13 +96,13 @@ describe('the book loader', () => {
 
         bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
             .then(books => {
-                let firstBook = books[0];
-                expect(firstBook.description).toBeDefined();
-                expect(typeof firstBook.description).toBe('string');
+                books.forEach(book => {
 
-                var descriptionWithoutSpaces = firstBook.descrption.replace(' ', '');
+                    expect(book.description).toBeDefined();
+                    expect(typeof book.description).toBe('string');
+                    expect(book.description.length).toBeLessThan(200);
 
-                expect(descriptionWithoutSpaces.length).toBeLessThan(200);
+                });
 
                 done();
             })
@@ -116,9 +117,13 @@ describe('the book loader', () => {
 
         bookLoader.loadBooks({ query: 'javascript', maxResults: 20 })
             .then(books => {
-                let firstBook = books[0];
-                expect(firstBook.coverImage).toBeDefined();
-                expect(typeof firstBook.coverImage).toBe('string');
+
+                books.forEach(book => {
+
+                    expect(book.coverImage).toBeDefined();
+                    expect(typeof book.coverImage).toBe('string');
+
+                });
 
                 done();
             })
