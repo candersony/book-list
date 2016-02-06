@@ -7,10 +7,10 @@ import xhr from './xhr.js';
 const googleBooksSearch = "https://www.googleapis.com/books/v1/volumes";
 
 function limitString({ str, maxLength = 200}) {
-    let limitedString = str.Substring(0, maxLength);
+    let limitedString = str.substring(0, maxLength);
     let indexOfLastSpace = limitedString.lastIndexOf(' ');
 
-    return limitedString.Substring(0, indexOfLastSpace);
+    return limitedString.substring(0, indexOfLastSpace);
 }
 
 function loadBooks({ query = '', maxResults = 20, orderBy = 'newest'}){
@@ -23,7 +23,7 @@ function loadBooks({ query = '', maxResults = 20, orderBy = 'newest'}){
     return xhr.getJson(url)
         .then(booksResult => booksResult.items.map(book => ({
             title: book.volumeInfo.title,
-            description: limitString(book.volumeInfo.description),
+            description: limitString({ str: book.volumeInfo.description }),
             coverImage: book.volumeInfo.imageLinks.smallThumbnail
         })));
 }
