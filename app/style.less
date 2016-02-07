@@ -1,123 +1,140 @@
 form {
-    max-width: 1024px;
-    margin: 0 auto;
+  max-width: 1024px;
+  margin: 0 auto;
 }
+
 input {
-    width: 100%;
-    max-width: 1024px;
-    padding: 5px 0;
-    text-indent: 5px;
-    margin: 0.3em;
+  width: 100%;
+  max-width: 1024px;
+  padding: 5px 0;
+  text-indent: 5px;
+  margin: 0.3em;
 }
 
 @book-image-width: 128px;
 @book-image-height: 164px;
 
 .book-list {
-    padding: 0;
-    margin: 0 auto;
-    max-width: 1024px;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1024px;
 }
 
 .book {
-    border-bottom: 1px solid #ccc;
-    display: table;
-    border-collapse: collapse;
-    width: 100%;
-    height: @book-image-height;
-    opacity: 0;
+  border-bottom: 1px solid #ccc;
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+  height: @book-image-height;
+  opacity: 0;
 
-    @-webkit-keyframes fadeIn {
-        0%   { opacity: 0; }
-        100% { opacity: 1; }
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
     }
-    @-moz-keyframes fadeIn {
-        0%   { opacity: 0; }
-        100% { opacity: 1; }
+    100% {
+      opacity: 1;
     }
-    @-o-keyframes fadeIn {
-        0%   { opacity: 0; }
-        100% { opacity: 1; }
+  }
+  @-moz-keyframes fadeIn {
+    0% {
+      opacity: 0;
     }
-    @keyframes fadeIn {
-        0%   { opacity: 0; }
-        100% { opacity: 1; }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @fadeInTime: 0.1s;
+  @noOfBooksDisplayedOnScreen: 20;
+
+  .loop(@counter) when (@counter > 0) {
+    .loop((@counter - 1));
+
+    &:nth-child(@{counter}) {
+      -webkit-animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
+      -moz-animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
+      animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
     }
 
-    @fadeInTime: 0.1s;
-    @noOfBooksDisplayedOnScreen: 20;
+  }
 
-    .loop(@counter) when (@counter > 0) {
-        .loop((@counter - 1));
-
-        &:nth-child(@{counter}) {
-            -webkit-animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
-            -moz-animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
-            animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
-        }
-
-    }
-
-    .loop(@noOfBooksDisplayedOnScreen);
+  .loop(@noOfBooksDisplayedOnScreen);
 }
 
 .book-inner {
-    display: table-row;
-    overflow: hidden;
+  display: table-row;
+  overflow: hidden;
 }
 
 .book-img {
-    display: table-cell;
-    vertical-align: middle;
-    width: 30%;
-    padding-right: 1em;
+  display: table-cell;
+  vertical-align: middle;
+  width: 30%;
+  padding-right: 1em;
 
-    img {
-        display: block;
-        width: 100%;
-        height: auto;
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
 
-        -webkit-filter: grayscale(100%);
-        filter: grayscale(100%);
-    }
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
 }
 
 .book-text {
-    display: table-cell;
-    vertical-align: middle;
-    width: 70%;
-    max-height: @book-image-height;
+  display: table-cell;
+  vertical-align: middle;
+  width: 70%;
+  max-height: @book-image-height;
+  overflow: hidden;
+  .book-title, .book-description {
+    margin: 0;
+  }
+
+  .book-description {
+
+    @font-size: 16px;
+    @line-height: 1.4;
+    @lines-to-show: 3;
+
+    height: @font-size*@line-height*@lines-to-show;
+
+    font-size: @font-size;
+    line-height: @line-height;
+    -webkit-line-clamp: @lines-to-show;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    .book-title, .book-description {
-        margin: 0;
-    }
-
-    .book-description {
-
-        @font-size: 16px;
-        @line-height: 1.4;
-        @lines-to-show: 3;
-
-        height: @font-size*@line-height*@lines-to-show;
-
-        font-size: @font-size;
-        line-height: @line-height;
-        -webkit-line-clamp: @lines-to-show;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    text-overflow: ellipsis;
+  }
 }
 
 @media all and (min-width: 45em) {
-    .book {
-        float: left;
-        width: 50%;
-    }
+  .book {
+    float: left;
+    width: 50%;
+  }
 }
 
 @media all and (min-width: 75em) {
-    .book {
-        width: 33.33333%;
-    }
+  .book {
+    width: 33.33333%;
+  }
 }

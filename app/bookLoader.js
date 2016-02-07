@@ -7,10 +7,10 @@ import xhr from './xhr.js';
 const googleBooksSearch = "https://www.googleapis.com/books/v1/volumes";
 
 function limitString({ str, maxLength = 200}) {
-    let limitedString = str.substring(0, maxLength);
-    let indexOfLastSpace = limitedString.lastIndexOf(' ');
+  let limitedString = str.substring(0, maxLength);
+  let indexOfLastSpace = limitedString.lastIndexOf(' ');
 
-    return limitedString.substring(0, indexOfLastSpace);
+  return limitedString.substring(0, indexOfLastSpace);
 }
 
 /**
@@ -20,11 +20,11 @@ function limitString({ str, maxLength = 200}) {
  * @property {string} coverImage - The cover image url of the book
  */
 class Book {
-    constructor({title, description, coverImage}){
-        this.title = title;
-        this.description = limitString({ str: description, maxLength: 200 });
-        this.coverImage = coverImage;
-    }
+  constructor({title, description, coverImage}) {
+    this.title = title;
+    this.description = limitString({str: description, maxLength: 200});
+    this.coverImage = coverImage;
+  }
 }
 
 /**
@@ -35,21 +35,21 @@ class Book {
  * @param {string} [orderBy = 'newset'] - The order of the results. Possible values are 'newest' or 'relevance'
  * @returns {Promise<Book[]|Error>}
  */
-function loadBooks({ query, maxResults = 20, orderBy = 'newest'}){
+function loadBooks({ query, maxResults = 20, orderBy = 'newest'}) {
 
-    if(!query || !query.trim()){
-        return Promise.reject('query is required and must contain at least one character')
-    }
-    let url = `${googleBooksSearch}?q=${query}&maxResults=${maxResults}&orderBy=${orderBy}`;
+  if (!query || !query.trim()) {
+    return Promise.reject('query is required and must contain at least one character')
+  }
+  let url = `${googleBooksSearch}?q=${query}&maxResults=${maxResults}&orderBy=${orderBy}`;
 
-    return xhr.getJson(url)
-        .then(booksResult => booksResult.items.map(book => new Book({
-            title: book.volumeInfo.title,
-            description: book.volumeInfo.description,
-            coverImage: book.volumeInfo.imageLinks.smallThumbnail
-        })));
+  return xhr.getJson(url)
+    .then(booksResult => booksResult.items.map(book => new Book({
+      title: book.volumeInfo.title,
+      description: book.volumeInfo.description,
+      coverImage: book.volumeInfo.imageLinks.smallThumbnail
+    })));
 }
 
 export default {
-    loadBooks
+  loadBooks
 }

@@ -3,11 +3,11 @@
  */
 
 function get(url) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let request = new XMLHttpRequest();
     request.open('GET', url);
 
-    request.onload = function() {
+    request.onload = function () {
       if (request.status == 200) {
         resolve(request.response);
       }
@@ -16,7 +16,7 @@ function get(url) {
       }
     };
 
-    request.onerror = function() {
+    request.onerror = function () {
       reject(Error("Network Error"));
     };
 
@@ -24,7 +24,7 @@ function get(url) {
   });
 }
 
-function getJson(url){
+function getJson(url) {
   return get(url)
     .then(responseText => JSON.parse(responseText))
 }

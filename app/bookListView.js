@@ -3,16 +3,16 @@
  */
 
 class bookListView {
-    constructor({ containerElement }) {
-        this.containerElement = containerElement;
-        this.listElement = document.createElement('ul');
-        this.listElement.className = 'book-list';
+  constructor({ containerElement }) {
+    this.containerElement = containerElement;
+    this.listElement = document.createElement('ul');
+    this.listElement.className = 'book-list';
 
-        this.containerElement.appendChild(this.listElement);
-    }
+    this.containerElement.appendChild(this.listElement);
+  }
 
-    render(books){
-        this.listElement.innerHTML = books.map(book => `
+  render(books) {
+    this.listElement.innerHTML = books.map(book => `
       <li class="book">
           <div class="book-inner">
               <div class="book-img"><img src="${book.coverImage}"></div>
@@ -23,11 +23,11 @@ class bookListView {
               </div>
           </li>
           `).join('');
-    }
+  }
 
-    renderError(error){
-        console.error(error);
-    }
+  renderError(error) {
+    console.error(error);
+  }
 }
 
 export default bookListView

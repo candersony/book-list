@@ -1,6 +1,6 @@
 // Karma configuration
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     basePath: '',
@@ -29,28 +29,28 @@ module.exports = function(config) {
     },
 
     webpack: {
-        module: {
-            loaders: [
-                {
-                      test: /\.js$/,
-                      exclude: /(node_modules|bower_components)/,
-                      loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
-                      query: {
-                          presets: ['es2015']
-                      }
-                }
-            ]
-        },
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+            query: {
+              presets: ['es2015']
+            }
+          }
+        ]
+      },
 
-        devtool: 'inline-source-map'
+      devtool: 'inline-source-map'
     },
 
     plugins: [
-        'karma-chrome-launcher',
-        'karma-jasmine',
-        'karma-jasmine-ajax',
-        'karma-webpack',
-        'karma-sourcemap-loader'
+      'karma-chrome-launcher',
+      'karma-jasmine',
+      'karma-jasmine-ajax',
+      'karma-webpack',
+      'karma-sourcemap-loader'
     ]
   })
 };
