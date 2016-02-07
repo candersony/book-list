@@ -12,12 +12,11 @@ class BookController {
     }
 
     searchBooks({ query = null }) {
+        // TODO: Cancel previous searches to prevent search result flicker on screen
 
-        return (bookLoader
-                .loadBooks({ query, maxResults: 20 })
-                .then(books => this.bookListView.render(books))
-                .catch(error => this.bookListView.renderError(error))
-        );
+        return bookLoader.loadBooks({ query, maxResults: 20 })
+            .then(books => this.bookListView.render(books))
+            .catch(error => this.bookListView.renderError(error));
 
     }
 }

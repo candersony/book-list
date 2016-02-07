@@ -13,17 +13,39 @@ function limitString({ str, maxLength = 200}) {
     return limitedString.substring(0, indexOfLastSpace);
 }
 
-function loadBooks({ query = '', maxResults = 20, orderBy = 'newest'}){
+/**
+ * @typedef Book
+ * @property {string} title - The title of the book
+ * @property {string} description - The description of the book, limited to 200 characters
+ * @property {string} coverImage - The cover image url of the book
+ */
+class Book {
+    constructor({title, description, coverImage}){
+        this.title = title;
+        this.description = limitString({ str: description, maxLength: 200 });
+        this.coverImage = coverImage;
+    }
+}
 
-    if(!query || query.length <= 0){
+/**
+ * Loads books from the google api
+ *
+ * @param {string} query - The full-text search query string. This is required and must not be an empty string.
+ * @param {number} [maxResults = 20] - The number of results to fetch from google
+ * @param {string} [orderBy = 'newset'] - The order of the results. Possible values are 'newest' or 'relevance'
+ * @returns {Promise<Book[]|Error>}
+ */
+function loadBooks({ query, maxResults = 20, orderBy = 'newest'}){
+
+    if(!query || !query.trim()){
         return Promise.reject('query is required and must contain at least one character')
     }
     let url = `${googleBooksSearch}?q=${query}&maxResults=${maxResults}&orderBy=${orderBy}`;
 
     return xhr.getJson(url)
-        .then(booksResult => booksResult.items.map(book => ({
+        .then(booksResult => booksResult.items.map(book => new Book({
             title: book.volumeInfo.title,
-            description: limitString({ str: book.volumeInfo.description }),
+            description: book.volumeInfo.description,
             coverImage: book.volumeInfo.imageLinks.smallThumbnail
         })));
 }
