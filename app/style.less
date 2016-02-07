@@ -25,6 +25,40 @@ input {
     border-collapse: collapse;
     width: 100%;
     height: @book-image-height;
+    opacity: 0;
+
+    @-webkit-keyframes fadeIn {
+        0%   { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @-moz-keyframes fadeIn {
+        0%   { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @-o-keyframes fadeIn {
+        0%   { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @keyframes fadeIn {
+        0%   { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @fadeInTime: 0.1s;
+    @noOfBooksDisplayedOnScreen: 20;
+
+    .loop(@counter) when (@counter > 0) {
+        .loop((@counter - 1));
+
+        &:nth-child(@{counter}) {
+            -webkit-animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
+            -moz-animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
+            animation: fadeIn @fadeInTime linear (@counter * @fadeInTime) forwards;
+        }
+
+    }
+
+    .loop(@noOfBooksDisplayedOnScreen);
 }
 
 .book-inner {
